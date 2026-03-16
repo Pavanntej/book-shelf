@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from "react"
+import React, { useEffect, useState } from "react"
 import { supabase } from "./lib/supabase"
 import { FastAverageColor } from "fast-average-color"
 
@@ -8,18 +8,24 @@ const [books,setBooks] = useState([])
 const [activeBook,setActiveBook] = useState(null)
 const [bg,setBg] = useState("#ffffff")
 
+/* LOAD BOOKS */
+
 useEffect(()=>{
  loadBooks()
 },[])
 
 async function loadBooks(){
 
- const {data} = await supabase
+ const {data,error} = await supabase
  .from("books")
  .select("*")
 
+ if(!error){
  setBooks(data || [])
+ }
 }
+
+/* CHANGE BACKGROUND BASED ON POSTER */
 
 useEffect(()=>{
 
@@ -37,15 +43,22 @@ useEffect(()=>{
 
  setBg(color.hex)
 
- document.documentElement.style.setProperty("--accent",color.hex)
+ document.documentElement.style.setProperty(
+ "--accent",
+ color.hex
+ )
 
  }
 
 },[activeBook])
 
+
+/* SCROLL TO BOOK */
+
 function scrollToBook(id){
 
- document.getElementById("book-"+id)
+ document
+ .getElementById("book-"+id)
  .scrollIntoView({behavior:"smooth"})
 
  const book = books.find(b=>b.id===id)
@@ -53,12 +66,34 @@ function scrollToBook(id){
  setActiveBook(book)
 }
 
+
+/* EXTRACT YOUTUBE ID */
+
+function getYouTubeID(url){
+
+ if(!url) return ""
+
+ if(url.includes("shorts/")){
+ return url.split("shorts/")[1].split("?")[0]
+ }
+
+ if(url.includes("watch?v=")){
+ return url.split("watch?v=")[1].split("&")[0]
+ }
+
+ return url
+}
+
+
+/* UI */
+
 return(
 
 <div style={{
 background:bg,
 minHeight:"100vh",
-transition:"all 0.6s ease"
+transition:"all 0.6s ease",
+fontFamily:"system-ui"
 }}>
 
 {/* HEADER */}
@@ -67,7 +102,8 @@ transition:"all 0.6s ease"
 display:"flex",
 gap:"20px",
 padding:"20px",
-overflowX:"auto"
+overflowX:"auto",
+borderBottom:"1px solid #eee"
 }}>
 
 {books.map(book=>(
@@ -75,6 +111,7 @@ overflowX:"auto"
 <img
 key={book.id}
 src={book.logo}
+alt={book.title}
 style={{
 height:"50px",
 cursor:"pointer"
@@ -104,53 +141,102 @@ marginBottom:"120px"
 <div style={{
 display:"flex",
 gap:"40px",
-alignItems:"center"
+alignItems:"center",
+flexWrap:"wrap"
 }}>
+
+{/* POSTER */}
 
 <img
 src={book.poster}
+alt={book.title}
 style={{
 width:"260px",
-borderRadius:"10px"
+borderRadius:"10px",
+boxShadow:"0 10px 30px rgba(0,0,0,0.2)"
 }}
 />
 
-<div>
+
+{/* DETAILS */}
+
+<div style={{maxWidth:"500px"}}>
 
 <img
 src={book.logo}
+alt="logo"
 style={{
 height:"80px",
 marginBottom:"20px"
 }}
 />
 
-<p>{book.description}</p>
+<p style={{lineHeight:"1.6"}}>
+{book.description}
+</p>
 
 <br/>
 
-<a href={book.color_link} target="_blank">
-<button style={{marginRight:"10px"}}>Buy Colour</button>
+<a href={book.color_link} target="_blank" rel="noreferrer">
+<button style={{
+marginRight:"10px",
+padding:"10px 16px",
+borderRadius:"6px",
+border:"none",
+background:"var(--accent)",
+color:"#fff",
+cursor:"pointer"
+}}>
+Buy Colour
+</button>
 </a>
 
-<a href={book.bw_link} target="_blank">
-<button>Buy B&W</button>
+<a href={book.bw_link} target="_blank" rel="noreferrer">
+<button style={{
+padding:"10px 16px",
+borderRadius:"6px",
+border:"none",
+background:"#333",
+color:"#fff",
+cursor:"pointer"
+}}>
+Buy B&W
+</button>
 </a>
 
 </div>
 
 </div>
+
 
 <br/><br/>
 
+
+{/* TRAILER (9:16) */}
+
+<div style={{
+
+width:"320px",
+aspectRatio:"9/16",
+borderRadius:"14px",
+overflow:"hidden",
+boxShadow:"0 10px 40px rgba(0,0,0,0.3)"
+
+}}>
+
 <iframe
-width="700"
-height="400"
 src={`https://www.youtube.com/embed/${getYouTubeID(book.trailer)}?autoplay=1&mute=0`}
 allow="autoplay; encrypted-media"
 allowFullScreen
-style={{border:"none",borderRadius:"12px"}}
+title="Book Trailer"
+style={{
+width:"100%",
+height:"100%",
+border:"none"
+}}
 ></iframe>
+
+</div>
 
 </div>
 
