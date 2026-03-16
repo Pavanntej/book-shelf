@@ -263,21 +263,51 @@ width:"400px"
 <h3>Edit Book</h3>
 
 <input
+placeholder="Title"
 value={editBook.title}
 onChange={(e)=>setEditBook({...editBook,title:e.target.value})}
-style={{width:"100%",marginBottom:"10px"}}
 />
 
 <input
+placeholder="Genre"
 value={editBook.genre}
 onChange={(e)=>setEditBook({...editBook,genre:e.target.value})}
-style={{width:"100%",marginBottom:"10px"}}
+/>
+
+<input
+placeholder="Poster URL"
+value={editBook.poster}
+onChange={(e)=>setEditBook({...editBook,poster:e.target.value})}
+/>
+
+<input
+placeholder="Trailer URL"
+value={editBook.trailer}
+onChange={(e)=>setEditBook({...editBook,trailer:e.target.value})}
 />
 
 <textarea
+placeholder="Description"
 value={editBook.description}
 onChange={(e)=>setEditBook({...editBook,description:e.target.value})}
-style={{width:"100%",marginBottom:"10px"}}
+/>
+
+<input
+placeholder="Color Buying Link"
+value={editBook.color_buy_link}
+onChange={(e)=>setEditBook({...editBook,color_buy_link:e.target.value})}
+/>
+
+<input
+placeholder="B&W Buying Link"
+value={editBook.bw_buy_link}
+onChange={(e)=>setEditBook({...editBook,bw_buy_link:e.target.value})}
+/>
+
+<input
+placeholder="Cast"
+value={editBook.cast}
+onChange={(e)=>setEditBook({...editBook,cast:e.target.value})}
 />
 
 <div style={{display:"flex",gap:"10px"}}>
