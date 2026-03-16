@@ -60,9 +60,13 @@ async function updateBook(){
 await supabase
 .from("books")
 .update({
-title:editBook.title,
-genre:editBook.genre,
-description:editBook.description
+    genre: book.genre,
+    poster: book.poster,
+    trailer: book.trailer,
+    description: book.description,
+    color_buy_link: book.color_buy_link,
+    bw_buy_link: book.bw_buy_link,
+    cast: book.cast
 })
 .eq("id",editBook.id)
 
