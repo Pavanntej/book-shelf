@@ -146,8 +146,10 @@ marginBottom:"20px"
 <iframe
 width="700"
 height="400"
-src={book.trailer.replace("watch?v=","embed/")+"?autoplay=1"}
-allow="autoplay"
+src={`https://www.youtube.com/embed/${getYouTubeID(book.trailer)}?autoplay=1&mute=0`}
+allow="autoplay; encrypted-media"
+allowFullScreen
+style={{border:"none",borderRadius:"12px"}}
 ></iframe>
 
 </div>
