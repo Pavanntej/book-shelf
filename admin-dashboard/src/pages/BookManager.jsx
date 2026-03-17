@@ -60,13 +60,14 @@ async function updateBook(){
 await supabase
 .from("books")
 .update({
-    genre: book.genre,
-    poster: book.poster,
-    trailer: book.trailer,
-    description: book.description,
-    color_buy_link: book.color_buy_link,
-    bw_buy_link: book.bw_buy_link,
-    cast: book.cast
+title:editBook.title,
+genre:editBook.genre,
+poster:editBook.poster,
+trailer:editBook.trailer,
+buyColor:editBook.buyColor,
+buyBW:editBook.buyBW,
+description:editBook.description,
+cast:editBook.cast
 })
 .eq("id",editBook.id)
 
@@ -263,51 +264,21 @@ width:"400px"
 <h3>Edit Book</h3>
 
 <input
-placeholder="Title"
 value={editBook.title}
 onChange={(e)=>setEditBook({...editBook,title:e.target.value})}
+style={{width:"100%",marginBottom:"10px"}}
 />
 
 <input
-placeholder="Genre"
 value={editBook.genre}
 onChange={(e)=>setEditBook({...editBook,genre:e.target.value})}
-/>
-
-<input
-placeholder="Poster URL"
-value={editBook.poster}
-onChange={(e)=>setEditBook({...editBook,poster:e.target.value})}
-/>
-
-<input
-placeholder="Trailer URL"
-value={editBook.trailer}
-onChange={(e)=>setEditBook({...editBook,trailer:e.target.value})}
+style={{width:"100%",marginBottom:"10px"}}
 />
 
 <textarea
-placeholder="Description"
 value={editBook.description}
 onChange={(e)=>setEditBook({...editBook,description:e.target.value})}
-/>
-
-<input
-placeholder="Color Buying Link"
-value={editBook.color_buy_link}
-onChange={(e)=>setEditBook({...editBook,color_buy_link:e.target.value})}
-/>
-
-<input
-placeholder="B&W Buying Link"
-value={editBook.bw_buy_link}
-onChange={(e)=>setEditBook({...editBook,bw_buy_link:e.target.value})}
-/>
-
-<input
-placeholder="Cast"
-value={editBook.cast}
-onChange={(e)=>setEditBook({...editBook,cast:e.target.value})}
+style={{width:"100%",marginBottom:"10px"}}
 />
 
 <div style={{display:"flex",gap:"10px"}}>
